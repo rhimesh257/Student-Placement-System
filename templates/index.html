@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101a35">
+    <title>CampusPulse | Placement Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar">
+        <a class="brand" href="{{ url_for('home') }}">
+            <span class="brand-mark">CP</span>
+            <span><strong>CampusPulse</strong><small>PLACEMENT INTELLIGENCE</small></span>
+        </a>
+        <div class="side-label">WORKSPACE</div>
+        <nav class="side-nav" aria-label="Main navigation">
+            <a class="nav-link active" href="#overview"><span class="nav-icon">▦</span> Overview</a>
+            <a class="nav-link" href="#students"><span class="nav-icon">♙</span> Students</a>
+            <a class="nav-link" href="#add-student"><span class="nav-icon">＋</span> Add student</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="help-card"><span class="help-spark">✦</span><strong>Make every student career-ready.</strong><p>Track skills, measure readiness and turn insights into action.</p></div>
+            <div class="profile"><div class="avatar">AD</div><div><strong>Administrator</strong><small>Placement cell</small></div><span class="profile-dots">•••</span></div>
+        </div>
+    </aside>
+
+    <main class="main-content" id="overview">
+        <header class="topbar">
+            <div><div class="eyebrow">PLACEMENT OFFICE <span> / </span> OVERVIEW</div><h1>Good day, Admin <span class="wave">✦</span></h1><p class="subheading">Here’s what’s happening with your students today.</p></div>
+            <div class="top-actions"><span class="live-dot"></span><span class="live-text">Dashboard live</span><div class="top-avatar">AD</div></div>
+        </header>
+
+        <section class="welcome-banner">
+            <div class="banner-copy"><span class="banner-kicker">YOUR CAMPUS AT A GLANCE</span><h2>Turn student potential<br>into <em>career success.</em></h2><p>One clear view of performance, placement outcomes and student readiness.</p><a href="#students" class="banner-link">Explore student records <span>→</span></a></div>
+            <div class="banner-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="art-circle"><span>✦</span></div><div class="floating-chip chip-top">↗ &nbsp;Career growth</div><div class="floating-chip chip-bottom">✓ &nbsp;Future ready</div></div>
+        </section>
+
+        <section class="section-heading"><div><span class="eyebrow">PERFORMANCE SNAPSHOT</span><h2>Placement overview</h2></div><span class="updated-pill"><span></span> Current records</span></section>
+        <section class="stats-grid" aria-label="Placement statistics">
+            <article class="stat-card stat-indigo"><div class="stat-top"><span class="stat-label">Total students</span><span class="stat-icon">♙</span></div><div class="stat-value">{{ total }}</div><div class="stat-foot"><span class="foot-mark">↗</span> Students in your database</div><div class="stat-decoration"></div></article>
+            <article class="stat-card stat-green"><div class="stat-top"><span class="stat-label">Placed students</span><span class="stat-icon">✓</span></div><div class="stat-value">{{ placed_count }}</div><div class="stat-foot"><span class="foot-mark">↗</span> Successfully placed</div><div class="stat-decoration"></div></article>
+            <article class="stat-card stat-amber"><div class="stat-top"><span class="stat-label">Placement rate</span><span class="stat-icon">◎</span></div><div class="stat-value">{{ placement_rate }}<small>%</small></div><div class="stat-foot"><span class="foot-mark">◉</span> Of all recorded students</div><div class="stat-decoration"></div></article>
+            <article class="stat-card stat-blue"><div class="stat-top"><span class="stat-label">Average package</span><span class="stat-icon">₹</span></div><div class="stat-value">{{ average_package }}<small> LPA</small></div><div class="stat-foot"><span class="foot-mark">↗</span> Among placed students with package</div><div class="stat-decoration"></div></article>
+        </section>
+
+        <section class="content-grid">
+            <section class="panel add-panel" id="add-student">
+                <div class="panel-heading"><div><span class="eyebrow">BUILD YOUR TALENT POOL</span><h2>Add a student</h2><p>Enter academic and skill details to track placement readiness.</p></div><span class="panel-icon">＋</span></div>
+                <form method="POST" action="{{ url_for('home') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <div class="form-grid">
+                        <div class="form-group"><label for="name">Student name</label><input type="text" id="name" name="name" placeholder="e.g. Aanya Sharma" maxlength="100" required></div>
+                        <div class="form-group"><label for="department">Department</label><select id="department" name="department" required><option value="">Choose department</option><option value="CSE">CSE</option><option value="ECE">ECE</option><option value="EEE">EEE</option><option value="IT">IT</option><option value="MECH">MECH</option><option value="CIVIL">CIVIL</option><option value="Other">Other</option></select></div>
+                        <div class="form-group"><label for="cgpa">CGPA <span>0–10</span></label><input type="number" id="cgpa" name="cgpa" min="0" max="10" step="0.1" placeholder="8.5" required></div>
+                        <div class="form-group"><label for="aptitude">Aptitude score <span>0–100</span></label><input type="number" id="aptitude" name="aptitude" min="0" max="100" step="1" placeholder="75" required></div>
+                        <div class="form-group"><label for="technical">Technical skills <span>0–100</span></label><input type="number" id="technical" name="technical" min="0" max="100" step="1" placeholder="80" required></div>
+                        <div class="form-group"><label for="communication">Communication <span>0–100</span></label><input type="number" id="communication" name="communication" min="0" max="100" step="1" placeholder="70" required></div>
+                        <div class="form-group"><label for="placed">Placement status</label><select id="placed" name="placed" required><option value="no">Not placed</option><option value="yes">Placed</option></select></div>
+                        <div class="form-group"><label for="package">Package <span>LPA</span></label><input type="number" id="package" name="package" min="0" max="1000" step="0.1" value="0" placeholder="e.g. 6.5"></div>
+                    </div>
+                    <div class="form-footer"><span>All academic and skill fields are required.</span><button type="submit" class="submit-btn">＋ &nbsp;Save student</button></div>
+                </form>
+            </section>
+
+            <aside class="panel insight-panel">
+                <div class="panel-heading"><div><span class="eyebrow">QUICK INSIGHT</span><h2>Placement pulse</h2></div><span class="insight-icon">✧</span></div>
+                <div class="pulse-number">{{ placement_rate }}<span>%</span></div><p class="pulse-caption">of recorded students are placed</p>
+                <div class="progress-track"><div class="progress-fill" style="width: {{ placement_rate }}%"></div></div>
+                <div class="pulse-legend"><span><i class="legend-dot placed-dot"></i>Placed <b>{{ placed_count }}</b></span><span><i class="legend-dot pending-dot"></i>Not placed <b>{{ total - placed_count }}</b></span></div>
+                <div class="insight-divider"></div>
+                <div class="insight-note"><span class="note-icon">✦</span><div><strong>Keep building momentum</strong><p>Add student records regularly to get a more complete view of campus placement readiness.</p></div></div>
+            </aside>
+        </section>
+
+        <section class="panel table-panel" id="students">
+            <div class="table-heading"><div><span class="eyebrow">STUDENT DIRECTORY</span><h2>Student performance</h2><p>Review academic scores and placement status in one place.</p></div><span class="record-count">{{ total }} records</span></div>
+            <div class="table-wrap"><table><thead><tr><th>STUDENT</th><th>DEPARTMENT</th><th>CGPA</th><th>APTITUDE</th><th>TECHNICAL</th><th>COMMUNICATION</th><th>READINESS</th><th>STATUS</th></tr></thead><tbody>
+            {% for s in students %}<tr><td><div class="student-cell"><span class="student-avatar">{{ s.name[:1]|upper }}</span><strong>{{ s.name }}</strong></div></td><td><span class="dept-tag">{{ s.department }}</span></td><td>{{ '%.1f'|format(s.cgpa) }}</td><td>{{ s.aptitude }}</td><td>{{ s.technical }}</td><td>{{ s.communication }}</td><td><div class="readiness-cell"><span>{{ s.readiness }}%</span><div class="mini-track"><i style="width: {{ [s.readiness, 100]|min }}%"></i></div></div></td>{% if s.placed %}<td><span class="status-badge status-placed"><i></i>Placed</span></td>{% else %}<td><span class="status-badge status-pending"><i></i>Not placed</span></td>{% endif %}</tr>
+            {% else %}<tr><td colspan="8" class="empty-state">No student records yet. Add your first student above.</td></tr>{% endfor %}
+            </tbody></table></div>
+            <div class="table-bottom"><span>Readiness is an indicative weighted score, not a job-selection guarantee.</span><a href="#overview">Back to top ↑</a></div>
+        </section>
+        <footer class="footer"><span>© 2026 CampusPulse · Student Placement Intelligence</span><span>Built for better career outcomes <b>✦</b></span></footer>
+    </main>
+</div>
+</body>
+</html>
